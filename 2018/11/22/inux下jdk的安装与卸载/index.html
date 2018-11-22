@@ -10,7 +10,7 @@
 		
 
 <head><meta name="generator" content="Hexo 3.8.0">
-	<title>文章归档: 2018/11</title>
+	<title>Linux下jdk的安装与卸载</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="apple-mobile-web-app-title" content="Amaze UI">
@@ -54,9 +54,8 @@
 		
 		
 			
-			<!-- && is_current('archives/index.html') -->
-			<p class="page-name">文章归档</p>
-		
+			<p class="page-name">当前文章&nbsp;:&nbsp;《Linux下jdk的安装与卸载》</p>
+			
 		
 	
 	
@@ -152,95 +151,182 @@
 		<!-- content srart -->
 <div class="am-g am-g-fixed blog-fixed blog-content">
 	<div class="am-u-md-8 am-u-sm-12">
-		<div class="archive">
 
-			<div class="blog-text-center">
-				
-					<i class="fa fa-book">总计4篇文章</i>
-				
-			</div>  
+		<article class="am-article blog-article-p">
 
-			
+			<div class="am-article-hd">
+				
 
-							
-				
-				
-				
+
+				<h1 class="am-article-title blog-text-center">
 					
+					
+	
+		<a href="/2018/11/22/inux下jdk的安装与卸载/" itemprop="url">		
+			Linux下jdk的安装与卸载		
+		</a>
+	
+
+				</h1>
+
+				<p class="am-article-meta blog-text-center">
+					<span>
+						<i class="fa fa-clock-o"></i> 
+						<a href="/2018/11/22/inux下jdk的安装与卸载/" itemprop="url">
+	<time datetime="2018-11-22T02:25:49.000Z" itemprop="datePublished">
+  		2018-11-22
+  </time>
+</a>    
+&nbsp;
+					</span>
+					
+					<span>						
+						
+					</span>
+				</p>
+			</div>
+
+			<div class="am-article-bd">
+				<div class="content" id="post-content">
+					
+						<h2 id="一：查看系统是否有jdk"><a href="#一：查看系统是否有jdk" class="headerlink" title="一：查看系统是否有jdk"></a>一：查看系统是否有jdk</h2><ol>
+<li>which java 查看Java的执行路径</li>
+<li>echo $JAVA_HOME 查看java目录</li>
+<li>echo $PATH 查看java的bin目录</li>
+</ol>
+<h2 id="二：卸载旧版的jdk"><a href="#二：卸载旧版的jdk" class="headerlink" title="二：卸载旧版的jdk"></a>二：卸载旧版的jdk</h2><ol>
+<li><p>查看jdk的版本<br> rpm -qa | grep jdk<br> rpm -qa | grep gcj<br><img src="https://img-blog.csdnimg.cn/2018110813263624.png" alt="查看系统预装jdk"></p>
+</li>
+<li><p>卸载<br> yum -y remove java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>  yum -y remove java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64</p>
+</li>
+<li><p>重复第一步，确保jdk卸载完成</p>
+</li>
+</ol>
+<h2 id="三：安装jdk"><a href="#三：安装jdk" class="headerlink" title="三：安装jdk"></a>三：安装jdk</h2><ol>
+<li>创建jdk的安装目录<pre><code> mkdir -p /usr/cosmos/jdk
+</code></pre>2.下载jdk包<br>进入创建的目录，使用以下命令下载tar.gz<pre><code>wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot;  http://download.oracle.com/otn-pub/java/jdk/8u191-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+</code></pre></li>
+</ol>
+<p>3.解压<br> tar -zxvf jdk-8u191-linux-x64.tar.gz</p>
+<p> 4.配置环境变量<br>  vi /etc/profile 进入配置文件，类似windows的环境变量<br><img src="https://img-blog.csdnimg.cn/20181108140021701.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 按下 i键 进入编辑模式按下 i键 进入编辑模式<br>shift + g 定位到最后一行<br>加入如下代码</p>
+<pre><code>export JAVA_HOME=/usr/cosmos/jdk/jdk1.8.0_191
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+</code></pre><p>esc退出编辑<br>按下shift+： ，输入wq，退出文件并保存<br><img src="https://img-blog.csdnimg.cn/20181108142018254.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>5.使配置文件生效<br>  source /etc/profile</p>
+<p>6.测试<br>  输入 java -vesion，出现如下代码即为安装成功<br>  <img src="https://img-blog.csdnimg.cn/2018110814213150.png" alt="在这里插入图片描述"></p>
+<h2 id="四：小结"><a href="#四：小结" class="headerlink" title="四：小结"></a>四：小结</h2><p>linux相比window还是有点小复杂。可能不习惯吧。在此做个记录</p>
 
 					
-					<!--<a href="/archives/2018" class="archive-year">2018</a>-->
-				
-								
-				
-					  
-					<div class="archive-year">
-						<a href="/archives/2018/11">
-							2018-11
-						</a>
-					</div>				
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/22/inux下jdk的安装与卸载/" itemprop="url">Linux下jdk的安装与卸载</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/22/inux下jdk的安装与卸载/" itemprop="url">11-22</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/22/mysqldegree/" itemprop="url">Mysql主从复制实现读写分离</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/22/mysqldegree/" itemprop="url">11-22</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/22/consulculster/" itemprop="url">Consul集群部署</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/22/consulculster/" itemprop="url">11-22</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/21/hello-world/" itemprop="url">Hello World</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/21/hello-world/" itemprop="url">11-21</a>
-					</div>
-				</div>		        							
-			
-				
-			    
-		</div>
-	</div>
+				</div>
+			</div>
+		</article>
+
+		<ul class="am-pagination">
+    
+	
+		<li class="am-pagination-next">
+		<a class="pull-right" href="/2018/11/22/mysqldegree/" title="Mysql主从复制实现读写分离">
+			下一篇 &raquo;
+		</a>
+		</li>
+	 
+ </ul>
+        
+
+		<div class="theme-annie-comment-button-container">
+	<button id="annie-comment-button" class="theme-annie-comment-button" onclick="Annie_Comment()">
+		加载评论
+		<!--加载评论-->
+	</button>
 </div>
 
+<div id="annie-comment-container" class="theme-annie-comment-main-container">
+
+	
+		
+			<!-- comment valine -->
+			<!-- show valine comment -->
+<div id="valineComment" class="comment"></div>
+
+<!-- valine`s js & css -->
+<script>
+	window.jQuery || document.write('<script src="/js/jquery-2.1.1.min.js"><\/script>')
+</script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/js/valine.min.js"></script>
+<link rel="stylesheet" href="/css/comment.css">
+
+<script>
+	var checkExistComment = setInterval(function() {
+		if( $('#valineComment').length ) {
+			new Valine({
+				// AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+				av: AV,
+				//使用id寻找div元素（使用class可能找不到）
+				el: '#valineComment',
+				emoticon_url: 'https://cloud.panjunwen.com/alu',
+				emoticon_list: ["吐.png", "期待.png", "高兴.png", "吐血倒地.png", "哭泣.png", "欢呼.png"],
+				app_id: "3333....", //获取APP ID
+				app_key: "3333......", //获取APP KEY
+				placeholder: "no any!", //评论框占位提示文字        			
+			});
+			clearInterval(checkExistComment);
+		}
+	}, 100);
+</script>
+		
+	
+
+</div>
+
+<script type="text/javascript">
+	/* Show Comment */
+	var Annie_Comment = function() {
+		function Show_Hidden(obj) {
+			obj.style.display = 'block';
+		}
+		
+		//var obutton = $('#annie-comment-button');
+		//var obutton = $('#annie-comment-container');
+		var obutton = document.getElementById("annie-comment-button" || "0");
+		var odiv = document.getElementById("annie-comment-container");
+		if( 'obutton' ) {
+			obutton.onclick = function() {
+				Show_Hidden(odiv);
+				$("#annie-comment-button").css("display", 'none');
+				return false;
+			}
+		}
+	};
+
+	(function Annie_Init() {
+		Annie_Comment();
+	})();
+</script>
+		
+		<!--
+	时间：2018-09-24
+	描述：The TOC module refers to 'https://github.com/codefine/hexo-theme-mellow', include toc.ejs、toc.js、toc.css. All rights reserved by codefine. 
+-->
+
+	
+		<aside class="post-widget">
+			<nav class="post-toc-wrap" id="post-toc">
+				
+					<strong>文章目录</strong>
+				
+				
+				<!--toc(post.content)-->
+				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：查看系统是否有jdk"><span class="post-toc-text">一：查看系统是否有jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二：卸载旧版的jdk"><span class="post-toc-text">二：卸载旧版的jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三：安装jdk"><span class="post-toc-text">三：安装jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四：小结"><span class="post-toc-text">四：小结</span></a></li></ol>
+			</nav>
+			<div class="post-toc-bar"><div>
+		</div></div></aside>
+	
+
+	</div>
+</div>
 		</div>
 		</main>
 		
@@ -312,6 +398,11 @@
 	}
 </style>
 
+
+	<script src="/js/motto.js"></script>
+	<script type="text/javascript">
+		$(".motto").html(getMingYanContent());
+	</script>	
 
 
 
@@ -653,6 +744,8 @@
 
 
 
+
+	<script type="text/javascript" src="/js/toc.js"></script>
 
 
 <script type="text/javascript" src="/js/main.js"></script>
