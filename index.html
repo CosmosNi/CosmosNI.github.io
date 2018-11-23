@@ -227,11 +227,17 @@
 					
 						<p>
 							
-								一：安装Apache        yum install httpd
+								笔记author: cosmostags:
+
+PHPcategories:
+PHPdate: 2018-11-23 15:03:00
+
+
+
+一：安装Apache        yum install httpd
 修改默认端口：/etc/httpd/conf/httpd.conf修改配置： Listen 80 为Listen ip
 二：安装PHP配置yum源
-# yum install epel-release
-# rpm -ivh http://rpms.famillecollet.com/enterprise/remi-releas	
+# yum install epel-r	
 							  
 						</p> 
 					
@@ -275,11 +281,12 @@
 					
 						<p>
 							
-								一：准备工作1.Git的安装配置1.1安装git    https://gitforwindows.org/  （一直next就行）在path中添加git环境变量  如：E:\TOOL\Git\cmd
+								
+一：准备工作1.Git的安装配置1.1安装git    https://gitforwindows.org/  （一直next就行）在path中添加git环境变量  如：E:\TOOL\Git\cmd
 1.2生成秘钥打开git bash
 生成的秘钥就在用户目录的.ssh下
 1.3将公钥放置在gitlab，github上，由用户自行决定
-2.配置maven 添加 M2_HOME 和 MAVEN_HO	
+2.配置maven 添加 M2_HOME 和 MAVEN_H	
 							  
 						</p> 
 					
@@ -323,7 +330,8 @@
 					
 						<p>
 							
-								一：查看系统是否有jdk
+								
+一：查看系统是否有jdk
 which java 查看Java的执行路径
 echo $JAVA_HOME 查看java目录
 echo $PATH 查看java的bin目录
@@ -331,7 +339,7 @@ echo $PATH 查看java的bin目录
 二：卸载旧版的jdk
 查看jdk的版本 rpm -qa | grep jdk rpm -qa | grep gcj
 
-卸载 yum -y remove java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el	
+卸载 yum -y remove java-1.7.0-openjdk-1.7.0.45-2.4.3.3.e	
 							  
 						</p> 
 					
@@ -375,11 +383,12 @@ echo $PATH 查看java的bin目录
 					
 						<p>
 							
-								一：安装mysql，在这里我是在两台server上安装mysql5.7（安装过程不在详细介绍）    主：10.2.0.134    从：10.2.0.149
+								
+一：安装mysql，在这里我是在两台server上安装mysql5.7（安装过程不在详细介绍）    主：10.2.0.134    从：10.2.0.149
 二：配置master服务器1.创建用户
 CREATE USER &#39;cosmos&#39;@&#39;10.2.0.%&#39; ;
 ALTER USER &#39;cosmos&#39;@&#39;10.2.0.%&#39;
-IDE	
+ID	
 							  
 						</p> 
 					

@@ -194,28 +194,29 @@
 			<div class="am-article-bd">
 				<div class="content" id="post-content">
 					
-						<h2 id="一：安装mysql，"><a href="#一：安装mysql，" class="headerlink" title="一：安装mysql，"></a>一：安装mysql，</h2><p>在这里我是在两台server上安装mysql5.7（安装过程不在详细介绍）<br>    主：10.2.0.134<br>    从：10.2.0.149</p>
+						<p><meta name="referrer" content="no-referrer"></p>
+<h2 id="一：安装mysql，"><a href="#一：安装mysql，" class="headerlink" title="一：安装mysql，"></a>一：安装mysql，</h2><p>在这里我是在两台server上安装mysql5.7（安装过程不在详细介绍）<br>    主：10.2.0.134<br>    从：10.2.0.149</p>
 <h2 id="二：配置master服务器"><a href="#二：配置master服务器" class="headerlink" title="二：配置master服务器"></a>二：配置master服务器</h2><p>1.创建用户</p>
 <pre><code>CREATE USER &#39;cosmos&#39;@&#39;10.2.0.%&#39; ;
 ALTER USER &#39;cosmos&#39;@&#39;10.2.0.%&#39;
 IDENTIFIED BY &#39;cosmos&#39; ;
 GRANT Replication slave ON *.* TO &#39;cosmos&#39;@&#39;10.2.0.%&#39; ;
 FLUSH PRIVILEGES;
-</code></pre><p>2.修改mysql配置文件<br>如图，C:\ProgramData\MySQL\MySQL Server 5.7下的my.ini文件<br>如果看不到ProgramData文件夹，请打开隐藏的项目。<br><img src="https://img-blog.csdnimg.cn/20181113104338422.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</code></pre><p>2.修改mysql配置文件<br>如图，C:\ProgramData\MySQL\MySQL Server 5.7下的my.ini文件<br>如果看不到ProgramData文件夹，请打开隐藏的项目。<br><img src="https://img-blog.csdnimg.cn/20181113104338422.png" alt="在这里插入图片描述"></p>
 <p>在配置文件的[mysqld]下，修改如下配置：</p>
 <pre><code>server-id=134  //文件中默认为1，注意
 log-bin=master-bin
 log-bin-index=master-bin.index
 </code></pre><p>重启服务：在mysql命令行中：<br>输入：</p>
 <pre><code>SHOW MASTER STATUS;
-</code></pre><p><img src="https://img-blog.csdnimg.cn/20181113104847247.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20181113104847247.png" alt="在这里插入图片描述"></p>
 <h2 id="三：配置从服务器"><a href="#三：配置从服务器" class="headerlink" title="三：配置从服务器"></a>三：配置从服务器</h2><p>1.修改my.ini文件，在[mysqld]下添加如下配置</p>
 <pre><code>server-id=149  //文件中默认为1，注意
 relay-log-index=slave-relay-bin.index
 relay-log=slave-relay-bin 
 </code></pre><p>2.重启服务</p>
 <p>3.连接master<br>change master to master_host=’10.2.0.134’, //Master 服务器Ip<br>master_port=3306,<br>master_user=’cosmos’,<br>master_password=’cosmos’,<br>master_log_file=’master-bin.000004’,//Master服务器产生的日志,同上文查询出来的<br>master_log_pos=0;</p>
-<p><img src="https://img-blog.csdnimg.cn/20181113105713113.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20181113104847247.png" alt="在这里插入图片描述"></p>
 <p>4.启动slave<br>start slave;</p>
 <p>5.查看主从配置结果<br>show slave status\G<br>当<br>Slave_IO_Running: YES<br>Slave_SQL_Running: YES<br>即为配置成功。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此，mysql的主从复制成功搭建。用户可在项目内使用多数据源来进行数据的读写分离。</p>

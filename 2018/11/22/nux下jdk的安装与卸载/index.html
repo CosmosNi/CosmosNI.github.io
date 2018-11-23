@@ -194,7 +194,8 @@
 			<div class="am-article-bd">
 				<div class="content" id="post-content">
 					
-						<h2 id="一：查看系统是否有jdk"><a href="#一：查看系统是否有jdk" class="headerlink" title="一：查看系统是否有jdk"></a>一：查看系统是否有jdk</h2><ol>
+						<p><meta name="referrer" content="no-referrer"></p>
+<h2 id="一：查看系统是否有jdk"><a href="#一：查看系统是否有jdk" class="headerlink" title="一：查看系统是否有jdk"></a>一：查看系统是否有jdk</h2><ol>
 <li>which java 查看Java的执行路径</li>
 <li>echo $JAVA_HOME 查看java目录</li>
 <li>echo $PATH 查看java的bin目录</li>
@@ -213,12 +214,12 @@
 </code></pre></li>
 </ol>
 <p>3.解压<br> tar -zxvf jdk-8u191-linux-x64.tar.gz</p>
-<p> 4.配置环境变量<br>  vi /etc/profile 进入配置文件，类似windows的环境变量<br><img src="https://img-blog.csdnimg.cn/20181108140021701.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 4.配置环境变量<br>  vi /etc/profile 进入配置文件，类似windows的环境变量<br><img src="https://img-blog.csdnimg.cn/20181108140021701.png" alt="在这里插入图片描述"></p>
 <p> 按下 i键 进入编辑模式按下 i键 进入编辑模式<br>shift + g 定位到最后一行<br>加入如下代码</p>
 <pre><code>export JAVA_HOME=/usr/cosmos/jdk/jdk1.8.0_191
 export PATH=$PATH:$JAVA_HOME/bin
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-</code></pre><p>esc退出编辑<br>按下shift+： ，输入wq，退出文件并保存<br><img src="https://img-blog.csdnimg.cn/20181108142018254.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</code></pre><p>esc退出编辑<br>按下shift+： ，输入wq，退出文件并保存<br><img src="https://img-blog.csdnimg.cn/20181108142018254.png" alt="在这里插入图片描述"></p>
 <p>5.使配置文件生效<br>  source /etc/profile</p>
 <p>6.测试<br>  输入 java -vesion，出现如下代码即为安装成功<br>  <img src="https://img-blog.csdnimg.cn/2018110814213150.png" alt="在这里插入图片描述"></p>
 <h2 id="四：小结"><a href="#四：小结" class="headerlink" title="四：小结"></a>四：小结</h2><p>linux相比window还是有点小复杂。可能不习惯吧。在此做个记录</p>

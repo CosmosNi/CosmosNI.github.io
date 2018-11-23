@@ -194,7 +194,7 @@
 			<div class="am-article-bd">
 				<div class="content" id="post-content">
 					
-						<p>一：准备三台虚拟机<br>    n1: 10.2.0.151 linux<br>    n2:10.2.0.133 linux<br>    n3:10.2.0.149 window server</p>
+						<p><meta name="referrer" content="no-referrer"><br>一：准备三台虚拟机<br>    n1: 10.2.0.151 linux<br>    n2:10.2.0.133 linux<br>    n3:10.2.0.149 window server</p>
 <p>二：从官网下载consul<br>1.下载地址：<a href="https://www.consul.io/downloads.html" target="_blank" rel="noopener">https://www.consul.io/downloads.html</a><br>将下载好的文件放入指定的位置：如：/usr/local/consul/data</p>
 <p>2.解压文件<br>进入存放的目录<br>执行 unzip consul_1.4.0_windows_amd64.zip</p>
 <p>2.启动Server<br>    2.1.启动leader<br>    sudo ./consul agent -server -bootstrap-expect 3 -data-dir=data -node=n1 bind=10.2.0.151 -client=0.0.0.0 -ui &amp;<br>参数介绍：<br>server：以Server的方式启动consul<br>bootstrap-expect：集群要求的最少的server数，（此处最少设置为3，因为consul是选举机制，如果少于这个数量，consul无法进行选举）<br>data-dir：为代理存储状态提供了一个数据目录。保持集群状态<br>node：节点的id，唯一<br>bind：集群内部通信的地址。集群中其他的节点都应该能访问的地址。<br>client：监听的客户端的地址。<br>ui：开启自带的web UI<br>    2.3 启动cluster</p>
