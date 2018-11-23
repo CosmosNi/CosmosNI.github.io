@@ -10,7 +10,7 @@
 		
 
 <head><meta name="generator" content="Hexo 3.8.0">
-	<title>Linux下jdk的安装与卸载</title>
+	<title>jenkins+github自动化构建部署</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="apple-mobile-web-app-title" content="Amaze UI">
@@ -54,7 +54,7 @@
 		
 		
 			
-			<p class="page-name">当前文章&nbsp;:&nbsp;《Linux下jdk的安装与卸载》</p>
+			<p class="page-name">当前文章&nbsp;:&nbsp;《jenkins+github自动化构建部署》</p>
 			
 		
 	
@@ -162,8 +162,8 @@
 					
 					
 	
-		<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">		
-			Linux下jdk的安装与卸载		
+		<a href="/2018/11/23/jenkins-github自动化构建部署-2/" itemprop="url">		
+			jenkins+github自动化构建部署		
 		</a>
 	
 
@@ -172,20 +172,15 @@
 				<p class="am-article-meta blog-text-center">
 					<span>
 						<i class="fa fa-clock-o"></i> 
-						<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">
-	<time datetime="2018-11-22T02:25:00.000Z" itemprop="datePublished">
-  		2018-11-22
+						<a href="/2018/11/23/jenkins-github自动化构建部署-2/" itemprop="url">
+	<time datetime="2018-11-23T02:38:07.000Z" itemprop="datePublished">
+  		2018-11-23
   </time>
 </a>    
 &nbsp;
 					</span>
 					
 					<span>						
-						
-							<i class="fa fa-tags"></i>
-							
-								<a href="#jdk的安装" title="jdk的安装" rel="1">jdk的安装</a>&nbsp;
-													 											
 						
 					</span>
 				</p>
@@ -194,34 +189,33 @@
 			<div class="am-article-bd">
 				<div class="content" id="post-content">
 					
-						<h2 id="一：查看系统是否有jdk"><a href="#一：查看系统是否有jdk" class="headerlink" title="一：查看系统是否有jdk"></a>一：查看系统是否有jdk</h2><ol>
-<li>which java 查看Java的执行路径</li>
-<li>echo $JAVA_HOME 查看java目录</li>
-<li>echo $PATH 查看java的bin目录</li>
-</ol>
-<h2 id="二：卸载旧版的jdk"><a href="#二：卸载旧版的jdk" class="headerlink" title="二：卸载旧版的jdk"></a>二：卸载旧版的jdk</h2><ol>
-<li><p>查看jdk的版本<br> rpm -qa | grep jdk<br> rpm -qa | grep gcj<br><img src="https://img-blog.csdnimg.cn/2018110813263624.png" alt="查看系统预装jdk"></p>
-</li>
-<li><p>卸载<br> yum -y remove java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>  yum -y remove java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64</p>
-</li>
-<li><p>重复第一步，确保jdk卸载完成</p>
-</li>
-</ol>
-<h2 id="三：安装jdk"><a href="#三：安装jdk" class="headerlink" title="三：安装jdk"></a>三：安装jdk</h2><ol>
-<li>创建jdk的安装目录<pre><code> mkdir -p /usr/cosmos/jdk
-</code></pre>2.下载jdk包<br>进入创建的目录，使用以下命令下载tar.gz<pre><code>wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot;  http://download.oracle.com/otn-pub/java/jdk/8u191-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
-</code></pre></li>
-</ol>
-<p>3.解压<br> tar -zxvf jdk-8u191-linux-x64.tar.gz</p>
-<p> 4.配置环境变量<br>  vi /etc/profile 进入配置文件，类似windows的环境变量<br><img src="https://img-blog.csdnimg.cn/20181108140021701.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p> 按下 i键 进入编辑模式按下 i键 进入编辑模式<br>shift + g 定位到最后一行<br>加入如下代码</p>
-<pre><code>export JAVA_HOME=/usr/cosmos/jdk/jdk1.8.0_191
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-</code></pre><p>esc退出编辑<br>按下shift+： ，输入wq，退出文件并保存<br><img src="https://img-blog.csdnimg.cn/20181108142018254.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>5.使配置文件生效<br>  source /etc/profile</p>
-<p>6.测试<br>  输入 java -vesion，出现如下代码即为安装成功<br>  <img src="https://img-blog.csdnimg.cn/2018110814213150.png" alt="在这里插入图片描述"></p>
-<h2 id="四：小结"><a href="#四：小结" class="headerlink" title="四：小结"></a>四：小结</h2><p>linux相比window还是有点小复杂。可能不习惯吧。在此做个记录</p>
+						<h2 id="一：准备工作"><a href="#一：准备工作" class="headerlink" title="一：准备工作"></a>一：准备工作</h2><h3 id="1-Git的安装配置"><a href="#1-Git的安装配置" class="headerlink" title="1.Git的安装配置"></a>1.Git的安装配置</h3><p>1.1安装git    <a href="https://gitforwindows.org/" target="_blank" rel="noopener">https://gitforwindows.org/</a>  （一直next就行）<br>在path中添加git环境变量  如：E:\TOOL\Git\cmd<br><img src="https://img-blog.csdnimg.cn/20181123091153739.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>1.2生成秘钥<br>打开git bash<br><img src="https://img-blog.csdnimg.cn/20181123091602738.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>生成的秘钥就在用户目录的.ssh下<br><img src="https://img-blog.csdnimg.cn/20181123091818103.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>1.3将公钥放置在gitlab，github上，由用户自行决定</p>
+<h3 id="2-配置maven"><a href="#2-配置maven" class="headerlink" title="2.配置maven"></a>2.配置maven</h3><p> 添加 M2_HOME 和 MAVEN_HOME<br> <img src="https://img-blog.csdnimg.cn/20181123092148416.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>添加path变量 %M2_HOME%\bin<br>在cmd中运行mvn -v，出现如下界面即配置成功。<br><img src="https://img-blog.csdnimg.cn/20181123092313438.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="3-配置gradle"><a href="#3-配置gradle" class="headerlink" title="3.配置gradle"></a>3.配置gradle</h3><p>类似MAVEN，此处不再详述</p>
+<h3 id="4-安装jenkins-https-jenkins-io-download"><a href="#4-安装jenkins-https-jenkins-io-download" class="headerlink" title="4.安装jenkins  https://jenkins.io/download/"></a>4.安装jenkins  <a href="https://jenkins.io/download/" target="_blank" rel="noopener">https://jenkins.io/download/</a></h3><p>下载的msi文件直接运行即可</p>
+<p>4.1 根据提示找到密码<br><img src="https://img-blog.csdnimg.cn/20181123093120304.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>4.2安装插件 这里选建议的就行<br><img src="https://img-blog.csdnimg.cn/20181123093241126.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>4.3创建管理员账户</p>
+<p><img src="https://img-blog.csdnimg.cn/20181123093607725.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>4.4配置url<br><img src="https://img-blog.csdnimg.cn/20181123093714951.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>4.5配置凭据，选择凭据系统，添加凭据<br><img src="https://img-blog.csdnimg.cn/20181123095028829.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20181123095236727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>4.6进入控制页面，选择系统管理的系统配置中，配置全局变量<br><img src="https://img-blog.csdnimg.cn/20181123094233601.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>4.7配置全局工具<br>4.7.1配置jdk（注：不要选自动安装）<br><img src="https://img-blog.csdnimg.cn/20181123095812952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>4.7.2配置git<br><img src="https://img-blog.csdnimg.cn/20181123095912963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>4.7.3配置gradle，配置maven，配置docker都同上</p>
+<p>到此基础配置就完成了，开始项目（此处的项目以springboot构建）</p>
+<p>5.新建任务，构建一个自由风格的项目<br><img src="https://img-blog.csdnimg.cn/20181123100203533.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20181123100326915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>此处，我是用github管理项目的，所以选择git，也可根据自己需要选择<br><img src="https://img-blog.csdnimg.cn/20181123100356689.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>构建触发器，这里我用的是轮询方式，表达式类似cron，这里表示每两小时构建一次<br><img src="https://img-blog.csdnimg.cn/20181123101402228.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>此处参考：<a href="https://blog.csdn.net/qq_31142553/article/details/81193173" target="_blank" rel="noopener">https://blog.csdn.net/qq_31142553/article/details/81193173</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20181123102319407.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>接下去就可以手动构建啦</p>
+<h3 id="五：总结"><a href="#五：总结" class="headerlink" title="五：总结"></a>五：总结</h3><p>以上便是简单的jenkis的应用，当然jenkins是一个特别强大的自动化构建部署的工具。还待以后慢慢探索。</p>
 
 					
 				</div>
@@ -230,15 +224,9 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
 		<ul class="am-pagination">
     
-    	<li class="am-pagination-prev">
-   		<a class="pull-left" href="/2018/11/23/jenkins-github自动化构建部署-2/" title="jenkins+github自动化构建部署">
-      		&laquo; 上一篇
-		</a>
-		</li>
-	
 	
 		<li class="am-pagination-next">
-		<a class="pull-right" href="/2018/11/22/mysqldegree/" title="Mysql主从复制实现读写分离">
+		<a class="pull-right" href="/2018/11/22/nux下jdk的安装与卸载/" title="Linux下jdk的安装与卸载">
 			下一篇 &raquo;
 		</a>
 		</li>
@@ -367,7 +355,7 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 				
 				
 				<!--toc(post.content)-->
-				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：查看系统是否有jdk"><span class="post-toc-text">一：查看系统是否有jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二：卸载旧版的jdk"><span class="post-toc-text">二：卸载旧版的jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三：安装jdk"><span class="post-toc-text">三：安装jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四：小结"><span class="post-toc-text">四：小结</span></a></li></ol>
+				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：准备工作"><span class="post-toc-text">一：准备工作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Git的安装配置"><span class="post-toc-text">1.Git的安装配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-配置maven"><span class="post-toc-text">2.配置maven</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置gradle"><span class="post-toc-text">3.配置gradle</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-安装jenkins-https-jenkins-io-download"><span class="post-toc-text">4.安装jenkins  https://jenkins.io/download/</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五：总结"><span class="post-toc-text">五：总结</span></a></li></ol></li></ol>
 			</nav>
 			<div class="post-toc-bar"><div>
 		</div></div></aside>
