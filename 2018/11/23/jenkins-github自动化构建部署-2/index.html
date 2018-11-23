@@ -173,7 +173,7 @@
 					<span>
 						<i class="fa fa-clock-o"></i> 
 						<a href="/2018/11/23/jenkins-github自动化构建部署-2/" itemprop="url">
-	<time datetime="2018-11-23T02:38:07.000Z" itemprop="datePublished">
+	<time datetime="2018-11-23T02:38:00.000Z" itemprop="datePublished">
   		2018-11-23
   </time>
 </a>    
@@ -181,6 +181,11 @@
 					</span>
 					
 					<span>						
+						
+							<i class="fa fa-tags"></i>
+							
+								<a href="#jenkis+gitlab" title="jenkis+gitlab" rel="1">jenkis+gitlab</a>&nbsp;
+													 											
 						
 					</span>
 				</p>
@@ -212,10 +217,16 @@
 <p><img src="https://img-blog.csdnimg.cn/20181123100326915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>此处，我是用github管理项目的，所以选择git，也可根据自己需要选择<br><img src="https://img-blog.csdnimg.cn/20181123100356689.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>构建触发器，这里我用的是轮询方式，表达式类似cron，这里表示每两小时构建一次<br><img src="https://img-blog.csdnimg.cn/20181123101402228.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>此处参考：<a href="https://blog.csdn.net/qq_31142553/article/details/81193173" target="_blank" rel="noopener">https://blog.csdn.net/qq_31142553/article/details/81193173</a></p>
-<p><img src="https://img-blog.csdnimg.cn/20181123102319407.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>1.杀死之前项目运行的端口<br><img src="https://img-blog.csdnimg.cn/2018112314580593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>2.清理并构建项目<br><img src="https://img-blog.csdnimg.cn/20181123145901319.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>3.运行脚本<br><img src="https://img-blog.csdnimg.cn/20181123102319407.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>接下去就可以手动构建啦</p>
-<h3 id="五：总结"><a href="#五：总结" class="headerlink" title="五：总结"></a>五：总结</h3><p>以上便是简单的jenkis的应用，当然jenkins是一个特别强大的自动化构建部署的工具。还待以后慢慢探索。</p>
+<h3 id="五：gitlab自动触发构建"><a href="#五：gitlab自动触发构建" class="headerlink" title="五：gitlab自动触发构建"></a>五：gitlab自动触发构建</h3><p>1.安装gitlab插件<br><img src="https://img-blog.csdnimg.cn/20181123112648677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>2.进入项目，配置gitlab触发器<br><img src="https://img-blog.csdnimg.cn/20181123112835483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>3.进入gitlab<br>在admin page里设置<br><img src="https://img-blog.csdnimg.cn/20181123112926356.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2018112312454982.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>进入你所要自动化部署的项目<br><img src="https://img-blog.csdnimg.cn/20181123124733700.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>测试：发送event，查看jenkis<br><img src="https://img-blog.csdnimg.cn/20181123124758203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>在edit底部可查看事件。<br><img src="https://img-blog.csdnimg.cn/20181123124830882.png" alt="在这里插入图片描述"></p>
+<h3 id="六：总结"><a href="#六：总结" class="headerlink" title="六：总结"></a>六：总结</h3><p>以上便是简单的jenkis的应用，当然jenkins是一个特别强大的自动化构建部署的工具。还待以后慢慢探索。</p>
 
 					
 				</div>
@@ -224,6 +235,12 @@
 
 		<ul class="am-pagination">
     
+    	<li class="am-pagination-prev">
+   		<a class="pull-left" href="/2018/11/23/jenkins-github自动化构建部署-1/" title="ECS服务搭建PHP运行环境---笔记">
+      		&laquo; 上一篇
+		</a>
+		</li>
+	
 	
 		<li class="am-pagination-next">
 		<a class="pull-right" href="/2018/11/22/nux下jdk的安装与卸载/" title="Linux下jdk的安装与卸载">
@@ -355,7 +372,7 @@
 				
 				
 				<!--toc(post.content)-->
-				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：准备工作"><span class="post-toc-text">一：准备工作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Git的安装配置"><span class="post-toc-text">1.Git的安装配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-配置maven"><span class="post-toc-text">2.配置maven</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置gradle"><span class="post-toc-text">3.配置gradle</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-安装jenkins-https-jenkins-io-download"><span class="post-toc-text">4.安装jenkins  https://jenkins.io/download/</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五：总结"><span class="post-toc-text">五：总结</span></a></li></ol></li></ol>
+				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：准备工作"><span class="post-toc-text">一：准备工作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Git的安装配置"><span class="post-toc-text">1.Git的安装配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-配置maven"><span class="post-toc-text">2.配置maven</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-配置gradle"><span class="post-toc-text">3.配置gradle</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-安装jenkins-https-jenkins-io-download"><span class="post-toc-text">4.安装jenkins  https://jenkins.io/download/</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#五：gitlab自动触发构建"><span class="post-toc-text">五：gitlab自动触发构建</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#六：总结"><span class="post-toc-text">六：总结</span></a></li></ol></li></ol>
 			</nav>
 			<div class="post-toc-bar"><div>
 		</div></div></aside>
