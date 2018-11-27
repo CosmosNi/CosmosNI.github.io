@@ -10,7 +10,7 @@
 		
 
 <head><meta name="generator" content="Hexo 3.8.0">
-	<title>文章归档: 2018</title>
+	<title>Springboot+elk实现分布式日志管理</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="apple-mobile-web-app-title" content="Amaze UI">
@@ -54,9 +54,8 @@
 		
 		
 			
-			<!-- && is_current('archives/index.html') -->
-			<p class="page-name">文章归档</p>
-		
+			<p class="page-name">当前文章&nbsp;:&nbsp;《Springboot+elk实现分布式日志管理》</p>
+			
 		
 	
 	
@@ -152,140 +151,423 @@
 		<!-- content srart -->
 <div class="am-g am-g-fixed blog-fixed blog-content">
 	<div class="am-u-md-8 am-u-sm-12">
-		<div class="archive">
 
-			<div class="blog-text-center">
-				
-					<i class="fa fa-book">总计7篇文章</i>
-				
-			</div>  
+		<article class="am-article blog-article-p">
 
-			
+			<div class="am-article-hd">
+				
 
-							
-				
-				
-				
+
+				<h1 class="am-article-title blog-text-center">
 					
+					
+	
+		<a href="/2018/11/27/Springboot-elk实现分布式日志管理/" itemprop="url">		
+			Springboot+elk实现分布式日志管理		
+		</a>
+	
+
+				</h1>
+
+				<p class="am-article-meta blog-text-center">
+					<span>
+						<i class="fa fa-clock-o"></i> 
+						<a href="/2018/11/27/Springboot-elk实现分布式日志管理/" itemprop="url">
+	<time datetime="2018-11-27T02:54:00.000Z" itemprop="datePublished">
+  		2018-11-27
+  </time>
+</a>    
+&nbsp;
+					</span>
+					
+					<span>						
+						
+							<i class="fa fa-tags"></i>
+							
+								<a href="#日志平台" title="日志平台" rel="1">日志平台</a>&nbsp;
+													 											
+						
+					</span>
+				</p>
+			</div>
+
+			<div class="am-article-bd">
+				<div class="content" id="post-content">
+					
+						<h2 id="一：准备工作"><a href="#一：准备工作" class="headerlink" title="一：准备工作"></a>一：准备工作</h2><p>1.准备三台机器：<br>10.2.0.151  主<br>10.2.0.152  数据中心<br>10.2.0.153    数据中心<br>机器上都安装上jdk</p>
+<p>2.修改host文件</p>
+<pre><code>vim /etc/hosts
+10.2.0.151 master-node
+10.2.0.152 data-node1
+10.2.0.153 data-node2
+</code></pre><h2 id="二：安装Elasticsearch-分布式集群"><a href="#二：安装Elasticsearch-分布式集群" class="headerlink" title="二：安装Elasticsearch 分布式集群"></a>二：安装Elasticsearch 分布式集群</h2><p>在三台机器上分别装上Elasticsearch </p>
+<pre><code>wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.0.0.rpm
+rpm -ivh elasticsearch-6.0.0.rpm
+</code></pre><p>2.搭建集群<br>2.1 修改主节点上的配置文件</p>
+<pre><code>vim /etc/elasticsearch/elasticsearch.yml
+</code></pre><p>修改如下几个配置：<br>cluster.name: master-node  # 集群中的名称<br>node.name: master  # 该节点名称<br>node.master: true  # 意思是该节点为主节点<br>node.data: false  # 表示这不是数据节点<br>network.host: 0.0.0.0  # 监听全部ip，在实际环境中应设置为一个安全的ip<br>http.port: 9200  # es服务的端口号<br>discovery.zen.ping.unicast.hosts: [“10.2.0.151”, “10.2.0.152”, “10.2.0.153”] # 配置自动发现</p>
+<p>2.2复制替换此文件到两个数据中心</p>
+<pre><code>  10.2.0.152 下修改如下配置：
+  node.name: data-node1
+  node.master: false
+  node.data: true
+</code></pre><pre><code>  10.2.0.153 下修改如下配置：
+  node.name: data-node2
+  node.master: false
+  node.data: true
+</code></pre><p>2.3启动es</p>
+<pre><code>systemctl start elasticsearch.service
+ps aux |grep elasticsearch
+netstat -lntp |grep java  # es服务会监听两个端口
+</code></pre><p><img src="https://img-blog.csdnimg.cn/20181127100311356.png" alt="在这里插入图片描述"></p>
+<p>2.4查看集群健康状态</p>
+<pre><code>curl &#39;10.2.0.151:9200/_cluster/health?pretty&#39;
+{
+  &quot;cluster_name&quot; : &quot;master-node&quot;,
+  &quot;status&quot; : &quot;green&quot;,  # 为green则代表健康没问题，如果是yellow或者red则是集群有问题
+  &quot;timed_out&quot; : false,  # 是否有超时
+  &quot;number_of_nodes&quot; : 3, # 集群中的节点数量
+  &quot;number_of_data_nodes&quot; : 2, # 集群中data节点的数量
+  &quot;active_primary_shards&quot; : 0,
+  &quot;active_shards&quot; : 0,
+  &quot;relocating_shards&quot; : 0,
+  &quot;initializing_shards&quot; : 0,
+  &quot;unassigned_shards&quot; : 0,
+  &quot;delayed_unassigned_shards&quot; : 0,
+  &quot;number_of_pending_tasks&quot; : 0,
+  &quot;number_of_in_flight_fetch&quot; : 0,
+  &quot;task_max_waiting_in_queue_millis&quot; : 0,
+  &quot;active_shards_percent_as_number&quot; : 100.0
+}
+</code></pre><p>集群的详细信息：</p>
+<pre><code>curl &#39;192.168.77.128:9200/_cluster/state?pretty&#39;
+</code></pre><p>到此，集群安装成功</p>
+<h2 id="三：搭建kibana"><a href="#三：搭建kibana" class="headerlink" title="三：搭建kibana"></a>三：搭建kibana</h2><p>1.安装</p>
+<pre><code>wget https://artifacts.elastic.co/downloads/kibana/kibana-6.0.0-x86_64.rpm
+rpm -ivh kibana-6.0.0-x86_64.rpm
+</code></pre><p>2.配置</p>
+<pre><code>vim /etc/kibana/kibana.yml  # 增加以下内容
+
+server.port: 5601  # 配置kibana的端口
+server.host: 10.2.0.151  # 配置监听ip
+elasticsearch.url: &quot;http://10.2.0.151:9200&quot;  # 配置es服务器的ip，如果是集群则配置该集群中主节点的ip
+logging.dest: /var/log/kibana.log  # 配置kibana的日志文件路径，不然默认是messages里记录日志
+</code></pre><p>3.创建日志文件：</p>
+<pre><code> touch /var/log/kibana.log; chmod 777 /var/log/kibana.log
+</code></pre><p>4.启动</p>
+<pre><code>systemctl start kibana
+ps aux |grep kibana   ###监听的端口
+netstat -lntp |grep 5601  ##进程是否启动
+</code></pre><p>5.访问<br><a href="http://ip+5601" target="_blank" rel="noopener">http://ip+5601</a></p>
+<h2 id="四：logstash"><a href="#四：logstash" class="headerlink" title="四：logstash"></a>四：logstash</h2><p>1.安装</p>
+<pre><code>wget https://artifacts.elastic.co/downloads/logstash/logstash-6.0.0.rpm
+rpm -ivh logstash-6.0.0.rpm
+</code></pre><p>2.配置logstash<br>新建一个conf文件：</p>
+<pre><code>input {
+    tcp {
+        port =&gt; 4560    ##开启的端口号，后面项目logback配置的
+    mode =&gt; &quot;server&quot; 
+    tags =&gt; [&quot;tags&quot;] 
+    codec =&gt; json_lines  ##解析方式
+    }
+}
+
+output{
+  elasticsearch { 
+     hosts =&gt; [&quot;10.2.0.151:9200&quot;]   ###elasticsearch 主节点
+     index =&gt;&quot;%{[appname]}-%{+YYYY.MM.dd}&quot;     #appname  后面logback会用到，指向项目名
+  }
+  stdout { codec =&gt; rubydebug }
+}
+
+
+</code></pre><p>将文件放入到/etc/logstash/conf.d/目录下</p>
+<p>3.检查配置文件是否有错</p>
+<pre><code>cd /usr/share/logstash/bin
+./logstash --path.settings /etc/logstash/ -f /etc/logstash/conf.d/syslog.conf --config.test_and_exit
+
+Sending Logstash&#39;s logs to /var/log/logstash which is now configured via log4j2.properties
+Configuration OK  # 为ok则代表配置文件没有问题
+</code></pre><p>命令说明：<br>–path.settings 用于指定logstash的配置文件所在的目录<br>-f 指定需要被检测的配置文件的路径<br>–config.test_and_exit 指定检测完之后就退出，不然就会直接启动了</p>
+<p>4.配置kibana服务器的ip以及配置的监听端口：</p>
+<pre><code>vim /etc/rsyslog.conf
+#### RULES ####
+
+*.* @@10.2.0.153:4560
+
+###重启rsyslog
+systemctl restart rsyslog
+</code></pre><p>5.指定配置文件，启动logstash</p>
+<pre><code>cd /usr/share/logstash/bin
+./logstash --path.settings /etc/logstash/ -f /etc/logstash/conf.d/syslog.conf
+systemctl start logstash
+</code></pre><p>6.查看是否启动成功</p>
+<pre><code>netstat -lntp |grep 9600
+netstat -lntp |grep 10514
+</code></pre><h2 id="五：测试"><a href="#五：测试" class="headerlink" title="五：测试"></a>五：测试</h2><p>1.登录master节点</p>
+<pre><code>curl &#39;10.2.0.151:9200/_cat/indices?v&#39;
+</code></pre><p>可以看到配置的appname的索引<br><img src="https://img-blog.csdnimg.cn/20181127102222987.png" alt="在这里插入图片描述"></p>
+<p>2.创建springboot项目<br>pom文件如下</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.test&lt;/groupId&gt;
+    &lt;artifactId&gt;springboot-with-elk&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;name&gt;springboot-with-elk&lt;/name&gt;
+    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.1.0.RELEASE&lt;/version&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;
+            &lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;
+            &lt;version&gt;5.2&lt;/version&gt;
+        &lt;/dependency&gt;
+
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+            &lt;scope&gt;runtime&lt;/scope&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+
+&lt;/project&gt;
+</code></pre><p>3.在resources包下创建logback-spring.xml，文件内容如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+    &lt;include resource=&quot;org/springframework/boot/logging/logback/base.xml&quot; /&gt;
+
+    &lt;appender name=&quot;LOGSTASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;
+        &lt;destination&gt;10.2.0.153:4560&lt;/destination&gt;
+        &lt;encoder charset=&quot;UTF-8&quot; class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot;&gt;
+            &lt;customFields&gt;{&quot;appname&quot;:&quot;first-elk-demo&quot;}&lt;/customFields&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+
+    &lt;root level=&quot;INFO&quot;&gt;
+        &lt;appender-ref ref=&quot;LOGSTASH&quot; /&gt;
+        &lt;appender-ref ref=&quot;CONSOLE&quot; /&gt;
+    &lt;/root&gt;
+
+
+&lt;/configuration&gt;
+
+</code></pre><p>4.创建mainclass，并运行项目</p>
+<pre><code>import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ *
+ * @author admin
+ */
+@SpringBootApplication
+public class Application implements CommandLineRunner {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringbootWithElkApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        Logger logger = LoggerFactory.getLogger(SpringbootWithElkApplication.class);
+        for (int i = 0; i &lt; 100; i++) {
+            logger.info(&quot;Hello，Elk. This is my {} time to see  you;&quot;, i, i);
+        }
+    }
+}
+
+</code></pre><p>5.访问kibana，<br>创建索引：<br><img src="https://img-blog.csdnimg.cn/20181127103404634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>访问discover<br><img src="https://img-blog.csdnimg.cn/20181127103508188.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NjYxNzk4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6 总结"></a>6 总结</h2><p>到此，hello world的执行成功了。更加详细高层次的内容还在学习中。欢迎大家一起学习进步。</p>
 
 					
-					<!--<a href="/archives/2018" class="archive-year">2018</a>-->
-				
-								
-				
-					  
-					<div class="archive-year">
-						<a href="/archives/2018/11">
-							2018-11
-						</a>
-					</div>				
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/27/Springboot-elk实现分布式日志管理/" itemprop="url">Springboot+elk实现分布式日志管理</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/27/Springboot-elk实现分布式日志管理/" itemprop="url">11-27</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/23/enkins-github自动化构建部署/" itemprop="url">代码质量管理平台之SonarQube</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/23/enkins-github自动化构建部署/" itemprop="url">11-23</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/23/jenkins-github自动化构建部署-1/" itemprop="url">ECS服务搭建PHP运行环境---笔记</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/23/jenkins-github自动化构建部署-1/" itemprop="url">11-23</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/23/jenkins-github自动化构建部署-2/" itemprop="url">jenkins+github自动化构建部署</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/23/jenkins-github自动化构建部署-2/" itemprop="url">11-23</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">Linux下jdk的安装与卸载</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">11-22</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/22/mysqldegree/" itemprop="url">Mysql主从复制实现读写分离</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/22/mysqldegree/" itemprop="url">11-22</a>
-					</div>
-				</div>		        							
-							
-				
-				
-				
-								
-				  
-				
-				<div class="archive-item">
-					<div class="archive-post-title">									
-						<a href="/2018/11/22/consulculster/" itemprop="url">Consul集群部署</a>
-					</div>
-					<div class="archive-post-time">
-						<a href="/2018/11/22/consulculster/" itemprop="url">11-22</a>
-					</div>
-				</div>		        							
-			
-				
-			    
-		</div>
-	</div>
+				</div>
+			</div>
+		</article>
+
+		<ul class="am-pagination">
+    
+	
+		<li class="am-pagination-next">
+		<a class="pull-right" href="/2018/11/23/enkins-github自动化构建部署/" title="代码质量管理平台之SonarQube">
+			下一篇 &raquo;
+		</a>
+		</li>
+	 
+ </ul>
+        
+
+		<div class="theme-annie-comment-button-container">
+	<button id="annie-comment-button" class="theme-annie-comment-button" onclick="Annie_Comment()">
+		加载评论
+		<!--加载评论-->
+	</button>
 </div>
 
+<div id="annie-comment-container" class="theme-annie-comment-main-container">
+
+	
+		
+			<!-- comment gitalk -->
+			<!-- show gitalk comment -->
+
+  <div id="gitalk-container"></div>
+
+
+<!-- gitalk`s css & js -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<link rel="stylesheet" href="/css/comment.css">
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<script type="text/javascript">
+	//thanks O-R
+	//https://github.com/gitalk/gitalk/issues/102#issuecomment-382970552
+	//去除尾部匹配正则数组的字符串  
+	//remove redundant characters
+	String.prototype.trimEnd = function(regStr) {
+		var result = this;
+		if(regStr == undefined || regStr == null || regStr == "") {
+			return result;
+		}
+		var array = regStr.split(',');
+
+		if(array.length > 0) {
+
+			var c = array.shift();
+			var str = this;
+			var i = str.length;
+			var rg = new RegExp(c);
+			var matchArr = str.match(rg);
+
+			if(matchArr != undefined && matchArr != null && matchArr.length > 0) {
+				var matchStr = matchArr[0].replace(/\\/g, "\\\\").replace(/\*/g, "\\*")
+					.replace(/\+/g, "\\+").replace(/\|/g, "\\|")
+					.replace(/\{/g, "\\{").replace(/\}/g, "\\}")
+					.replace(/\(/g, "\\(").replace(/\)/g, "\\)")
+					.replace(/\^/g, "\\^").replace(/\$/g, "\\$")
+					.replace(/\[/g, "\\[").replace(/\]/g, "\\]")
+					.replace(/\?/g, "\\?").replace(/\,/g, "\\,")
+					.replace(/\./g, "\\.").replace(/\&/g, "\\&");
+				matchStr = matchStr + '$';
+				result = str.replace(new RegExp(matchStr), "");
+			}
+
+			if(array.length > 0) {
+				return result.trimEnd(array.join())
+			} else {
+				return result;
+			}
+		}
+	};
+
+	//create gitalk
+	var gitalk = new Gitalk({
+		clientID: 'ca63358594a615ab6d9a',
+		clientSecret: '9bd928b2d7268de9161826309e92ba391edc1307',
+		//id: window.location.pathname,
+		// id: (window.location.pathname).split("/").pop().substring(0, 49),
+		id: md5(location.href.trimEnd('#.*$,\\?.*$,index.html$')),
+		repo: 'Blog-Comment-Repo',
+		owner: 'CosmosNi',
+		admin: 'CosmosNi',
+		distractionFreeMode: 'true',
+	})
+	gitalk.render('gitalk-container');
+</script>
+		
+	
+
+</div>
+
+<script type="text/javascript">
+	/* Show Comment */
+	var Annie_Comment = function() {
+		function Show_Hidden(obj) {
+			obj.style.display = 'block';
+		}
+		
+		//var obutton = $('#annie-comment-button');
+		//var obutton = $('#annie-comment-container');
+		var obutton = document.getElementById("annie-comment-button" || "0");
+		var odiv = document.getElementById("annie-comment-container");
+		if( 'obutton' ) {
+			obutton.onclick = function() {
+				Show_Hidden(odiv);
+				$("#annie-comment-button").css("display", 'none');
+				return false;
+			}
+		}
+	};
+
+	(function Annie_Init() {
+		Annie_Comment();
+	})();
+</script>
+		
+		<!--
+	时间：2018-09-24
+	描述：The TOC module refers to 'https://github.com/codefine/hexo-theme-mellow', include toc.ejs、toc.js、toc.css. All rights reserved by codefine. 
+-->
+
+	
+		<aside class="post-widget">
+			<nav class="post-toc-wrap" id="post-toc">
+				
+					<strong>文章目录</strong>
+				
+				
+				<!--toc(post.content)-->
+				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：准备工作"><span class="post-toc-text">一：准备工作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二：安装Elasticsearch-分布式集群"><span class="post-toc-text">二：安装Elasticsearch 分布式集群</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三：搭建kibana"><span class="post-toc-text">三：搭建kibana</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四：logstash"><span class="post-toc-text">四：logstash</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#五：测试"><span class="post-toc-text">五：测试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-总结"><span class="post-toc-text">6 总结</span></a></li></ol>
+			</nav>
+			<div class="post-toc-bar"><div>
+		</div></div></aside>
+	
+
+	</div>
+</div>
 		</div>
 		</main>
 		
@@ -349,6 +631,11 @@
 	}
 </style>
 
+
+	<script src="/js/motto.js"></script>
+	<script type="text/javascript">
+		$(".motto").html(getMingYanContent());
+	</script>	
 
 
 
@@ -690,6 +977,8 @@
 
 
 
+
+	<script type="text/javascript" src="/js/toc.js"></script>
 
 
 <script type="text/javascript" src="/js/main.js"></script>
