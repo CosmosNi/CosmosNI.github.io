@@ -10,7 +10,7 @@
 		
 
 <head><meta name="generator" content="Hexo 3.8.0">
-	<title>Linux下jdk的安装与卸载</title>
+	<title>tag: java工具</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="apple-mobile-web-app-title" content="Amaze UI">
@@ -54,7 +54,7 @@
 		
 		
 			
-			<p class="page-name">当前文章&nbsp;:&nbsp;《Linux下jdk的安装与卸载》</p>
+			<p class="page-name">标签</p>
 			
 		
 	
@@ -151,231 +151,50 @@
 		<!-- content srart -->
 <div class="am-g am-g-fixed blog-fixed blog-content">
 	<div class="am-u-md-8 am-u-sm-12">
+		<div class="archive">
 
-		<article class="am-article blog-article-p">
-
-			<div class="am-article-hd">
+			<div class="blog-text-center">
 				
+					<i class="fa fa-book">java工具</i>
+				
+			</div>  
 
+			
 
-				<h1 class="am-article-title blog-text-center">
-					
-					
-	
-		<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">		
-			Linux下jdk的安装与卸载		
-		</a>
-	
-
-				</h1>
-
-				<p class="am-article-meta blog-text-center">
-					<span>
-						<i class="fa fa-clock-o"></i> 
-						<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">
-	<time datetime="2018-11-22T02:25:00.000Z" itemprop="datePublished">
-  		2018-11-22
-  </time>
-</a>    
-&nbsp;
-					</span>
-					
-					<span>						
-						
-							<i class="fa fa-tags"></i>
 							
-								<a href="#jdk的安装" title="jdk的安装" rel="1">jdk的安装</a>&nbsp;
-													 											
-						
-					</span>
-				</p>
-			</div>
-
-			<div class="am-article-bd">
-				<div class="content" id="post-content">
+				
+				
+				
 					
-						<p><meta name="referrer" content="no-referrer"></p>
-<h2 id="一：查看系统是否有jdk"><a href="#一：查看系统是否有jdk" class="headerlink" title="一：查看系统是否有jdk"></a>一：查看系统是否有jdk</h2><ol>
-<li>which java 查看Java的执行路径</li>
-<li>echo $JAVA_HOME 查看java目录</li>
-<li>echo $PATH 查看java的bin目录</li>
-</ol>
-<h2 id="二：卸载旧版的jdk"><a href="#二：卸载旧版的jdk" class="headerlink" title="二：卸载旧版的jdk"></a>二：卸载旧版的jdk</h2><ol>
-<li><p>查看jdk的版本<br> rpm -qa | grep jdk<br> rpm -qa | grep gcj<br><img src="https://img-blog.csdnimg.cn/2018110813263624.png" alt="查看系统预装jdk"></p>
-</li>
-<li><p>卸载<br> yum -y remove java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>  yum -y remove java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64</p>
-</li>
-<li><p>重复第一步，确保jdk卸载完成</p>
-</li>
-</ol>
-<h2 id="三：安装jdk"><a href="#三：安装jdk" class="headerlink" title="三：安装jdk"></a>三：安装jdk</h2><ol>
-<li>创建jdk的安装目录<pre><code> mkdir -p /usr/cosmos/jdk
-</code></pre>2.下载jdk包<br>进入创建的目录，使用以下命令下载tar.gz<pre><code>wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot;  http://download.oracle.com/otn-pub/java/jdk/8u191-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
-</code></pre></li>
-</ol>
-<p>3.解压<br> tar -zxvf jdk-8u191-linux-x64.tar.gz</p>
-<p> 4.配置环境变量<br>  vi /etc/profile 进入配置文件，类似windows的环境变量<br><img src="https://img-blog.csdnimg.cn/20181108140021701.png" alt="在这里插入图片描述"></p>
-<p> 按下 i键 进入编辑模式按下 i键 进入编辑模式<br>shift + g 定位到最后一行<br>加入如下代码</p>
-<pre><code>export JAVA_HOME=/usr/cosmos/jdk/jdk1.8.0_191
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-</code></pre><p>esc退出编辑<br>按下shift+： ，输入wq，退出文件并保存<br><img src="https://img-blog.csdnimg.cn/20181108142018254.png" alt="在这里插入图片描述"></p>
-<p>5.使配置文件生效<br>  source /etc/profile</p>
-<p>6.测试<br>  输入 java -vesion，出现如下代码即为安装成功<br>  <img src="https://img-blog.csdnimg.cn/2018110814213150.png" alt="在这里插入图片描述"></p>
-<h2 id="四：小结"><a href="#四：小结" class="headerlink" title="四：小结"></a>四：小结</h2><p>linux相比window还是有点小复杂。可能不习惯吧。在此做个记录</p>
 
 					
-				</div>
-			</div>
-		</article>
-
-		<ul class="am-pagination">
-    
-    	<li class="am-pagination-prev">
-   		<a class="pull-left" href="/2018/11/23/jenkins-github自动化构建部署-2/" title="jenkins+github自动化构建部署">
-      		&laquo; 上一篇
-		</a>
-		</li>
-	
-	
-		<li class="am-pagination-next">
-		<a class="pull-right" href="/2018/11/22/mysqldegree/" title="Mysql主从复制实现读写分离">
-			下一篇 &raquo;
-		</a>
-		</li>
-	 
- </ul>
-        
-
-		<div class="theme-annie-comment-button-container">
-	<button id="annie-comment-button" class="theme-annie-comment-button" onclick="Annie_Comment()">
-		加载评论
-		<!--加载评论-->
-	</button>
-</div>
-
-<div id="annie-comment-container" class="theme-annie-comment-main-container">
-
-	
-		
-			<!-- comment gitalk -->
-			<!-- show gitalk comment -->
-
-  <div id="gitalk-container"></div>
-
-
-<!-- gitalk`s css & js -->
-<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<link rel="stylesheet" href="/css/comment.css">
-<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<script type="text/javascript">
-	//thanks O-R
-	//https://github.com/gitalk/gitalk/issues/102#issuecomment-382970552
-	//去除尾部匹配正则数组的字符串  
-	//remove redundant characters
-	String.prototype.trimEnd = function(regStr) {
-		var result = this;
-		if(regStr == undefined || regStr == null || regStr == "") {
-			return result;
-		}
-		var array = regStr.split(',');
-
-		if(array.length > 0) {
-
-			var c = array.shift();
-			var str = this;
-			var i = str.length;
-			var rg = new RegExp(c);
-			var matchArr = str.match(rg);
-
-			if(matchArr != undefined && matchArr != null && matchArr.length > 0) {
-				var matchStr = matchArr[0].replace(/\\/g, "\\\\").replace(/\*/g, "\\*")
-					.replace(/\+/g, "\\+").replace(/\|/g, "\\|")
-					.replace(/\{/g, "\\{").replace(/\}/g, "\\}")
-					.replace(/\(/g, "\\(").replace(/\)/g, "\\)")
-					.replace(/\^/g, "\\^").replace(/\$/g, "\\$")
-					.replace(/\[/g, "\\[").replace(/\]/g, "\\]")
-					.replace(/\?/g, "\\?").replace(/\,/g, "\\,")
-					.replace(/\./g, "\\.").replace(/\&/g, "\\&");
-				matchStr = matchStr + '$';
-				result = str.replace(new RegExp(matchStr), "");
-			}
-
-			if(array.length > 0) {
-				return result.trimEnd(array.join())
-			} else {
-				return result;
-			}
-		}
-	};
-
-	//create gitalk
-	var gitalk = new Gitalk({
-		clientID: 'ca63358594a615ab6d9a',
-		clientSecret: '9bd928b2d7268de9161826309e92ba391edc1307',
-		//id: window.location.pathname,
-		// id: (window.location.pathname).split("/").pop().substring(0, 49),
-		id: md5(location.href.trimEnd('#.*$,\\?.*$,index.html$')),
-		repo: 'Blog-Comment-Repo',
-		owner: 'CosmosNi',
-		admin: 'CosmosNi',
-		distractionFreeMode: 'true',
-	})
-	gitalk.render('gitalk-container');
-</script>
-		
-	
-
-</div>
-
-<script type="text/javascript">
-	/* Show Comment */
-	var Annie_Comment = function() {
-		function Show_Hidden(obj) {
-			obj.style.display = 'block';
-		}
-		
-		//var obutton = $('#annie-comment-button');
-		//var obutton = $('#annie-comment-container');
-		var obutton = document.getElementById("annie-comment-button" || "0");
-		var odiv = document.getElementById("annie-comment-container");
-		if( 'obutton' ) {
-			obutton.onclick = function() {
-				Show_Hidden(odiv);
-				$("#annie-comment-button").css("display", 'none');
-				return false;
-			}
-		}
-	};
-
-	(function Annie_Init() {
-		Annie_Comment();
-	})();
-</script>
-		
-		<!--
-	时间：2018-09-24
-	描述：The TOC module refers to 'https://github.com/codefine/hexo-theme-mellow', include toc.ejs、toc.js、toc.css. All rights reserved by codefine. 
--->
-
-	
-		<aside class="post-widget">
-			<nav class="post-toc-wrap" id="post-toc">
+					<!--<a href="/archives/2018" class="archive-year">2018</a>-->
 				
-					<strong>文章目录</strong>
+								
 				
+					  
+					<div class="archive-year">
+						<a href="/archives/2018/12">
+							2018-12
+						</a>
+					</div>				
+				  
 				
-				<!--toc(post.content)-->
-				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：查看系统是否有jdk"><span class="post-toc-text">一：查看系统是否有jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二：卸载旧版的jdk"><span class="post-toc-text">二：卸载旧版的jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三：安装jdk"><span class="post-toc-text">三：安装jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四：小结"><span class="post-toc-text">四：小结</span></a></li></ol>
-			</nav>
-			<div class="post-toc-bar"><div>
-		</div></div></aside>
-	
-
+				<div class="archive-item">
+					<div class="archive-post-title">									
+						<a href="/2018/12/07/Grafana-Prometheus实现服务器监控-window版/" itemprop="url">Grafana+Prometheus实现服务器监控----------window版</a>
+					</div>
+					<div class="archive-post-time">
+						<a href="/2018/12/07/Grafana-Prometheus实现服务器监控-window版/" itemprop="url">12-07</a>
+					</div>
+				</div>		        							
+			
+				
+			    
+		</div>
 	</div>
 </div>
+
 		</div>
 		</main>
 		
@@ -439,11 +258,6 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 	}
 </style>
 
-
-	<script src="/js/motto.js"></script>
-	<script type="text/javascript">
-		$(".motto").html(getMingYanContent());
-	</script>	
 
 
 
@@ -785,8 +599,6 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 
 
 
-
-	<script type="text/javascript" src="/js/toc.js"></script>
 
 
 <script type="text/javascript" src="/js/main.js"></script>

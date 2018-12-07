@@ -10,7 +10,7 @@
 		
 
 <head><meta name="generator" content="Hexo 3.8.0">
-	<title>Linux下jdk的安装与卸载</title>
+	<title>Volatile的使用场景</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="apple-mobile-web-app-title" content="Amaze UI">
@@ -54,7 +54,7 @@
 		
 		
 			
-			<p class="page-name">当前文章&nbsp;:&nbsp;《Linux下jdk的安装与卸载》</p>
+			<p class="page-name">当前文章&nbsp;:&nbsp;《Volatile的使用场景》</p>
 			
 		
 	
@@ -162,8 +162,8 @@
 					
 					
 	
-		<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">		
-			Linux下jdk的安装与卸载		
+		<a href="/2018/12/01/Volatile的使用场景/" itemprop="url">		
+			Volatile的使用场景		
 		</a>
 	
 
@@ -172,20 +172,15 @@
 				<p class="am-article-meta blog-text-center">
 					<span>
 						<i class="fa fa-clock-o"></i> 
-						<a href="/2018/11/22/nux下jdk的安装与卸载/" itemprop="url">
-	<time datetime="2018-11-22T02:25:00.000Z" itemprop="datePublished">
-  		2018-11-22
+						<a href="/2018/12/01/Volatile的使用场景/" itemprop="url">
+	<time datetime="2018-12-01T15:08:54.000Z" itemprop="datePublished">
+  		2018-12-01
   </time>
 </a>    
 &nbsp;
 					</span>
 					
 					<span>						
-						
-							<i class="fa fa-tags"></i>
-							
-								<a href="#jdk的安装" title="jdk的安装" rel="1">jdk的安装</a>&nbsp;
-													 											
 						
 					</span>
 				</p>
@@ -194,35 +189,9 @@
 			<div class="am-article-bd">
 				<div class="content" id="post-content">
 					
-						<p><meta name="referrer" content="no-referrer"></p>
-<h2 id="一：查看系统是否有jdk"><a href="#一：查看系统是否有jdk" class="headerlink" title="一：查看系统是否有jdk"></a>一：查看系统是否有jdk</h2><ol>
-<li>which java 查看Java的执行路径</li>
-<li>echo $JAVA_HOME 查看java目录</li>
-<li>echo $PATH 查看java的bin目录</li>
-</ol>
-<h2 id="二：卸载旧版的jdk"><a href="#二：卸载旧版的jdk" class="headerlink" title="二：卸载旧版的jdk"></a>二：卸载旧版的jdk</h2><ol>
-<li><p>查看jdk的版本<br> rpm -qa | grep jdk<br> rpm -qa | grep gcj<br><img src="https://img-blog.csdnimg.cn/2018110813263624.png" alt="查看系统预装jdk"></p>
-</li>
-<li><p>卸载<br> yum -y remove java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>  yum -y remove java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64</p>
-</li>
-<li><p>重复第一步，确保jdk卸载完成</p>
-</li>
-</ol>
-<h2 id="三：安装jdk"><a href="#三：安装jdk" class="headerlink" title="三：安装jdk"></a>三：安装jdk</h2><ol>
-<li>创建jdk的安装目录<pre><code> mkdir -p /usr/cosmos/jdk
-</code></pre>2.下载jdk包<br>进入创建的目录，使用以下命令下载tar.gz<pre><code>wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot;  http://download.oracle.com/otn-pub/java/jdk/8u191-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
-</code></pre></li>
-</ol>
-<p>3.解压<br> tar -zxvf jdk-8u191-linux-x64.tar.gz</p>
-<p> 4.配置环境变量<br>  vi /etc/profile 进入配置文件，类似windows的环境变量<br><img src="https://img-blog.csdnimg.cn/20181108140021701.png" alt="在这里插入图片描述"></p>
-<p> 按下 i键 进入编辑模式按下 i键 进入编辑模式<br>shift + g 定位到最后一行<br>加入如下代码</p>
-<pre><code>export JAVA_HOME=/usr/cosmos/jdk/jdk1.8.0_191
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-</code></pre><p>esc退出编辑<br>按下shift+： ，输入wq，退出文件并保存<br><img src="https://img-blog.csdnimg.cn/20181108142018254.png" alt="在这里插入图片描述"></p>
-<p>5.使配置文件生效<br>  source /etc/profile</p>
-<p>6.测试<br>  输入 java -vesion，出现如下代码即为安装成功<br>  <img src="https://img-blog.csdnimg.cn/2018110814213150.png" alt="在这里插入图片描述"></p>
-<h2 id="四：小结"><a href="#四：小结" class="headerlink" title="四：小结"></a>四：小结</h2><p>linux相比window还是有点小复杂。可能不习惯吧。在此做个记录</p>
+						<p>加锁可以保证可见性与原子性。但volatile变量只能保证可见性。</p>
+<p>使用场景:<br>1.写入变量时并不依赖变量的当前值。或者能够确定保证只有单一的线程能修改变量的值。<br>2.变量不需要与其他状态变量共同参与不变约束。<br>3.访问变量的时候，没有其他原因需要加锁。</p>
+<p>ThreadLocal确保线程的封闭性。<br>Threadlocal提供了get和set的访问器，为每个使用它的线程维护一份单独的拷贝。所以get返回的都是当前线程设置的最新值。</p>
 
 					
 				</div>
@@ -232,14 +201,14 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 		<ul class="am-pagination">
     
     	<li class="am-pagination-prev">
-   		<a class="pull-left" href="/2018/11/23/jenkins-github自动化构建部署-2/" title="jenkins+github自动化构建部署">
+   		<a class="pull-left" href="/2018/12/07/Grafana-Prometheus实现服务器监控-window版/" title="Grafana+Prometheus实现服务器监控----------window版">
       		&laquo; 上一篇
 		</a>
 		</li>
 	
 	
 		<li class="am-pagination-next">
-		<a class="pull-right" href="/2018/11/22/mysqldegree/" title="Mysql主从复制实现读写分离">
+		<a class="pull-right" href="/2018/11/27/Springboot-elk实现分布式日志管理/" title="Springboot+elk实现分布式日志管理">
 			下一篇 &raquo;
 		</a>
 		</li>
@@ -360,18 +329,6 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 	描述：The TOC module refers to 'https://github.com/codefine/hexo-theme-mellow', include toc.ejs、toc.js、toc.css. All rights reserved by codefine. 
 -->
 
-	
-		<aside class="post-widget">
-			<nav class="post-toc-wrap" id="post-toc">
-				
-					<strong>文章目录</strong>
-				
-				
-				<!--toc(post.content)-->
-				<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一：查看系统是否有jdk"><span class="post-toc-text">一：查看系统是否有jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二：卸载旧版的jdk"><span class="post-toc-text">二：卸载旧版的jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三：安装jdk"><span class="post-toc-text">三：安装jdk</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#四：小结"><span class="post-toc-text">四：小结</span></a></li></ol>
-			</nav>
-			<div class="post-toc-bar"><div>
-		</div></div></aside>
 	
 
 	</div>
